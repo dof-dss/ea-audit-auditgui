@@ -1,0 +1,7 @@
+---
+applications:
+- name: ea-audit-auditgui
+  buildpacks:
+  - dotnet_core_buildpack
+  memory: 256M
+  services:
