@@ -31,7 +31,7 @@ export class AuditslistComponent implements OnInit, AfterViewInit {
   constructor(private auditService: AuditService) {}
 
   ngOnInit() {
-    this.auditService.getAudits(0, 5).subscribe(a => {
+    this.auditService.getAudits(1, 5).subscribe(a => {
       this.isLoading = false;
       this.dataSource = new MatTableDataSource<Audit>(a.data);
       this.paginator.length = a.total;

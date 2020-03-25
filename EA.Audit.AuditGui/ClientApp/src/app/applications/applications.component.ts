@@ -27,7 +27,7 @@ export class ApplicationsComponent implements OnInit, AfterViewInit {
               private router: Router) {}
 
   ngOnInit() {
-    this.applicationService.getApplications(0, 5).subscribe(a => {
+    this.applicationService.getApplications(1, 5).subscribe(a => {
       this.dataSource = new MatTableDataSource<Application>(a.data);
       this.isLoading = false;
       this.paginator.length = a.total;
