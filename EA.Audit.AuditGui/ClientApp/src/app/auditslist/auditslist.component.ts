@@ -47,7 +47,7 @@ export class AuditslistComponent implements OnInit, AfterViewInit {
   }
 
   loadAuditsPage() {
-    this.auditService.getAudits(this.paginator.pageIndex,
+    this.auditService.getAudits(this.paginator.pageIndex+1,
       this.paginator.pageSize).subscribe(a => {
       this.dataSource = new MatTableDataSource<Audit>(a.data);
       this.paginator.length = a.total;

@@ -44,7 +44,7 @@ export class ApplicationsComponent implements OnInit, AfterViewInit {
   }
 
   loadApplicationsPage() {
-    this.applicationService.getApplications(this.paginator.pageIndex,
+    this.applicationService.getApplications(this.paginator.pageIndex+1,
       this.paginator.pageSize).subscribe(a => {
       this.dataSource = new MatTableDataSource<Application>(a.data);
       this.paginator.length = a.total;
