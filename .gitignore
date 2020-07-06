@@ -43,4 +43,6 @@ launchSettings.json
 msbuild.ProjectImports.zip
 StyleCop.Cache
 UpgradeLog.htm
-.idea
+.
+
+.history/

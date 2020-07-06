@@ -24,13 +24,13 @@ jobs:
           name: Build
           command: |
             ls
-            cd ./ea-audit-auditgui/ClientApp
+            cd ./ea-audit-auditgui/EA.Audit.AuditGui/ClientApp
             npm install @angular/cli          
             npm run build-<< parameters.space >>
       - run:
           name: Deploy
           command: |
-            cd ./ea-audit-auditgui/ClientApp/dist
+            cd ./ea-audit-auditgui/EA.Audit.AuditGui/ClientApp/dist
             curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
             sudo dpkg -i cf-cli_amd64.deb
             cf -v
