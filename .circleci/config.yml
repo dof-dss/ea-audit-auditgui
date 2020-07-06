@@ -11,7 +11,7 @@ jobs:
     parameters:
       space:
         type: string
-    working_directory: ~/usage
+    working_directory: ~/audit
     docker:
       - image: circleci/node:10.16.3
     steps:
