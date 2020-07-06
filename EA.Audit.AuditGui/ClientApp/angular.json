@@ -37,6 +37,52 @@
             "scripts": []
           },
           "configurations": {
+            "sandbox": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.sandbox.ts"
+                }
+              ],
+              "assets": [
+                {
+                  "glob": "manifest.yml",
+                  "input": "src/assets/manifests/sandbox/",
+                  "output": "./"
+                }],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.staging.ts"
+                }
+              ],
+              "assets": [
+                {
+                  "glob": "manifest.yml",
+                  "input": "src/assets/manifests/staging/",
+                  "output": "./"
+                }],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -44,6 +90,12 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              "assets": [
+                {
+                  "glob": "manifest.yml",
+                  "input": "src/assets/manifests/prod/",
+                  "output": "./"
+                }],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
