@@ -1,0 +1,7 @@
+---
+applications:
+- name: ea-audit-auditgui-sandbox
+
+  memory: 64M
+  buildpacks:
+  - staticfile_buildpack
