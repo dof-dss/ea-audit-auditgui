@@ -1,0 +1,81 @@
+version: 2.1
+jobs:
+  hold:
+    docker:
+      - image: circleci/node:10.16.3
+    steps:
+      - run:
+          name: "Wait for approval"
+          command: echo Wait
+  build-and-deploy:
+    parameters:
+      space:
+        type: string
+    working_directory: ~/usage
+    docker:
+      - image: circleci/node:10.16.3
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: |
+            npm install
+      - run:
+          name: Build
+          command: |
+            ls
+            cd ./ea-audit-auditgui/ClientApp
+            npm install @angular/cli          
+            npm run build-<< parameters.space >>
+      - run:
+          name: Deploy
+          command: |
+            cd ./ea-audit-auditgui/ClientApp/dist
+            curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
+            sudo dpkg -i cf-cli_amd64.deb
+            cf -v
+            cf api https://api.london.cloud.service.gov.uk
+            cf auth "$CF_USERNAME" "$CF_PASSWORD"
+            cf target
+            echo "$CF_SPACE" 
+            cf target -o DOF-DSS  -s << parameters.space >> 
+            cf push
+workflows:
+  build-deploy-sandbox:
+    jobs:
+      - build-and-deploy:
+          space: "sandbox"
+          filters:
+            branches:
+              only:
+                - master          
+          context: govuk-paas-sandbox
+  build-deploy-staging:
+    jobs:
+      - build-and-deploy:
+          space: "staging"
+          context: govuk-paas-staging
+          filters:    # selected tags and no branches
+            tags:
+              only: /^v(0|[0-9]\d*)\.(0|[0-9]\d*)\.(0|[0-9]\d*)(?:-(alpha|beta))?$/
+            branches:
+              ignore: /.*/
+  build-deploy-prod:
+    jobs:
+      - hold:
+          type: approval 
+          filters:    # selected tags and no branches
+            tags:
+              only: /^v(0|[0-9]\d*)\.(0|[0-9]\d*)\.(0|[0-9]\d*)(?:-(alpha|beta))?$/
+            branches:
+              ignore: /.*/
+      - build-and-deploy:
+          space: "production"
+          requires:
+            - hold
+          context: govuk-paas-production
+          filters:    # selected tags and no branches
+            tags:
+              only: /^v(0|[0-9]\d*)\.(0|[0-9]\d*)\.(0|[0-9]\d*)(?:-(alpha|beta))?$/
+            branches:
+              ignore: /.*/
