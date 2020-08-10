@@ -11,6 +11,8 @@ jobs:
     parameters:
       space:
         type: string
+      env:
+        type: string
     working_directory: ~/audit
     docker:
       - image: circleci/node:10.16.3
@@ -25,6 +27,7 @@ jobs:
           command: |
             ls
             cd ./EA.Audit.AuditGui/ClientApp
+            echo $env_<< parameters.env >> > ./src/environments/environment.<< parameters.env >>.ts
             npm install @angular/cli          
             npm run build-<< parameters.space >>
       - run:
@@ -45,6 +48,7 @@ workflows:
     jobs:
       - build-and-deploy:
           space: "sandbox"
+          env: "sandbox"
           filters:
             branches:
               only:
@@ -54,6 +58,7 @@ workflows:
     jobs:
       - build-and-deploy:
           space: "staging"
+          env: "staging"
           context: govuk-paas-staging
           filters:    # selected tags and no branches
             tags:
@@ -71,6 +76,7 @@ workflows:
               ignore: /.*/
       - build-and-deploy:
           space: "production"
+          env: "prod"
           requires:
             - hold
           context: govuk-paas-production
